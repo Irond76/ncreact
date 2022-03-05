@@ -25,9 +25,8 @@ export class CampsiteInfoComponent extends Component {
             return (
                 <div className='col col-md-5 m-1'>
                     <h4>Comments</h4>
-                   {this.campsite.comments.map(c => (
-                       <li>{c.campsite.comments}</li>
-                   ))}
+                   {}
+                   
                 </div>
             )
         }
@@ -41,7 +40,8 @@ export class CampsiteInfoComponent extends Component {
           return (
               <div className='row'>
                   {this.renderCampsite(this.props.campsite)},
-                  {this.renderComments(this.props.comments)}
+                  {this.renderComments(this.props.campsite.comments)}
+                  
               </div>
           );
       }else {
