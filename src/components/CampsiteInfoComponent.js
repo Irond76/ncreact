@@ -20,13 +20,12 @@ export class CampsiteInfoComponent extends Component {
             
         );
     }
-    renderComments(comments){
-        if (comments){
-            return (
-                <div className='col col-md-5 m-1'>
+    renderComments(comments) {
+        if(comments) {
+            return(
+                <div className="col-md-5 m-1">
                     <h4>Comments</h4>
-                   {}
-                   
+                    {comments.map(c => <div key={c.id}>{c.text}<br/> -- {c.author}, {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(c.date)))}</div>)}
                 </div>
             )
         }
@@ -38,14 +37,16 @@ export class CampsiteInfoComponent extends Component {
   render() {
       if (this.props.campsite){
           return (
-              <div className='row'>
-                  {this.renderCampsite(this.props.campsite)},
-                  {this.renderComments(this.props.campsite.comments)}
-                  
+              <div className='container'>
+                <div className='row'>
+                    {this.renderCampsite(this.props.campsite)},
+                    {this.renderComments(this.props.campsite.comments)}
+                    
+                </div>
               </div>
           );
       }else {
-          return <div></div>
+          return <div />
       }
           
       
