@@ -52,6 +52,7 @@ function RenderComments({comments}) {
 
             this.state = {
                 modal: false,
+                rating: "",
                 author: "",
                 text: ""
             };
@@ -66,6 +67,7 @@ function RenderComments({comments}) {
         handleSubmit(values) {
             console.log("Current state is: " + JSON.stringify(values));
             alert("Current state is: " + JSON.stringify(values));
+            this.toggle();
             
         }
       render() {
@@ -124,15 +126,15 @@ function RenderComments({comments}) {
                                 </Button>
                 </LocalForm>
             </ModalBody>
-        <ModalFooter>
+        {/* <ModalFooter>
                         
-        </ModalFooter>
+        </ModalFooter> */}
     </Modal>
 
                 </div>
                 )
             }
-            }
+        }
             
 
 
