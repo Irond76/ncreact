@@ -1,11 +1,12 @@
 import React from 'react';
 
+
 import {Card, CardImg,  CardText, CardBody, CardTitle, Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 import { Breadcrumb, BreadcrumbItem, Label, Col, Row  } from 'reactstrap';
 import { Control, LocalForm, Errors } from 'react-redux-form';
 import {Link} from 'react-router-dom';
 import {Component} from 'react';
-
+import { Loading } from './LoadingComponent';
 
 const required = (val) => val && val.length;
 const maxLength = (len) => val => !val || (val.length <= len);
@@ -40,6 +41,7 @@ function RenderComments({comments, addComment, campsiteId}) {
                          -- {comment.author}, {new Intl.DateTimeFormat('en-US', { year: 'numeric', 
                          month: 'short', day: '2-digit'}).format(new Date(Date.parse(comment.date)))}
                         </p>
+                        
                     </div>
                     );
                 })}
@@ -102,9 +104,9 @@ function RenderComments({comments, addComment, campsiteId}) {
                             
                         </Control.select>
                             <br />
-                            <Label htmlFor="firstName" >Your Name</Label>
+                            <Label htmlFor="author" >Your Name</Label>
                             
-                                <Control.text model=".firstName" id="firstName" name="firstName"
+                                <Control.text model=".author" id="author" name="author"
                                     placeholder="Your Name"
                                     className="form-control"
                                     validators={{
@@ -115,7 +117,7 @@ function RenderComments({comments, addComment, campsiteId}) {
                                 />
                                 <Errors
                                     className="text-danger"
-                                    model=".firstName"
+                                    model=".author"
                                     show="touched"
                                     component="div"
                                     messages={{
@@ -125,9 +127,9 @@ function RenderComments({comments, addComment, campsiteId}) {
                                     }}
                                  />
                                  <br />
-                                <Label htmlFor="comment" >Comment</Label>
+                                <Label htmlFor="text" >Comment</Label>
                                 
-                                    <Control.textarea model='.comment' id="comment" name="comment"
+                                    <Control.textarea model='.text' id="text" name="text"
                                      rows="6"
                                     className='form-control'/>
                                     <br />
@@ -151,6 +153,26 @@ function RenderComments({comments, addComment, campsiteId}) {
 
 
         function CampsiteInfo(props) {
+            if (props.isLoading) {
+                return (
+                    <div className="container">
+                        <div className="row">
+                            <Loading />
+                        </div>
+                    </div>
+                );
+            }
+            if (props.errMess) {
+                return (
+                    <div className="container">
+                        <div className="row">
+                            <div className="col">
+                                <h4>{props.errMess}</h4>
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
             if (props.campsite){
                 return (
                     <div className='container'>
@@ -165,7 +187,7 @@ function RenderComments({comments, addComment, campsiteId}) {
                         </div>
                     </div>
                         <div className='row'>
-                            <RenderCampsite campsite={props.campsite} />
+                            <RenderCampsite campsite={props.campsite}  />
                             <RenderComments 
                                 comments={props.comments} 
                                 addComment={props.addComment}
