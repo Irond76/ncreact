@@ -28,14 +28,23 @@ function RenderCampsite({campsite}) {
             
         );
     }
-function RenderComments({comments}) {
+function RenderComments({comments, addComment, campsiteId}) {
         if(comments) {
             return(
                 <div className="col-md-5 m-1">
                     <h4>Comments</h4>
-                    {comments.map(c => <div key={c.id}>{c.text}<br/> -- {c.author}, {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(c.date)))}</div>)}
+                    {comments.map(comment => {
+                    return(
+                    <div key={comment.id}>
+                        <p>{comment.text}<br/>
+                         -- {comment.author}, {new Intl.DateTimeFormat('en-US', { year: 'numeric', 
+                         month: 'short', day: '2-digit'}).format(new Date(Date.parse(comment.date)))}
+                        </p>
+                    </div>
+                    );
+                })}
                     <br />
-                    <CommentForm />
+                    <CommentForm campsiteId={campsiteId} addComment={addComment} />
                     
                 </div>
             )
@@ -65,16 +74,17 @@ function RenderComments({comments}) {
             });
         }
         handleSubmit(values) {
-            console.log("Current state is: " + JSON.stringify(values));
-            alert("Current state is: " + JSON.stringify(values));
             this.toggle();
+            this.props.addComment(this.props.campsiteId, values.rating, values.author, values.text);
+            
+            
             
         }
       render() {
         return (
           <div>
               <Button outline color="secondary" onClick={this.toggle}>
-                <i class="fa fa-pencil" aria-hidden="true"> Submit Comment</i>
+                <i className="fa fa-pencil" aria-hidden="true"> Submit Comment</i>
               </Button>
               
     <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
@@ -156,7 +166,11 @@ function RenderComments({comments}) {
                     </div>
                         <div className='row'>
                             <RenderCampsite campsite={props.campsite} />
-                            <RenderComments comments={props.comments} />
+                            <RenderComments 
+                                comments={props.comments} 
+                                addComment={props.addComment}
+                                campsiteId={props.campsite.id}
+                            />
                         </div>
                 
                 
